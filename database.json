@@ -1,0 +1,44 @@
+{
+  "database": [
+    {
+      "Full name:": "Admin User",
+      "Username:": "admin",
+      "Email:": "admin@gmail.com",
+      "Age:": 34,
+      "Gender:": "male",
+      "Password:": "adminuser123"
+    },
+    {
+      "Full name:": "Default User",
+      "Username:": "default",
+      "Email:": "defaultuser@gmail.com",
+      "Age:": 14,
+      "Gender:": "male",
+      "Password:": "defaultuser123"
+    },
+    {
+      "Full name:": "Israel Dagama",
+      "Username:": "izzy",
+      "Email:": "israel@gmail.com",
+      "Age:": 15,
+      "Gender:": "male",
+      "Password:": "israel123"
+    },
+    {
+      "Full name:": "John Paul",
+      "Username:": "john",
+      "Email:": "johnpaul@gmail.com",
+      "Age:": 22,
+      "Gender:": "male",
+      "Password:": "johnpaul123"
+    },
+    {
+      "Full name:": "Ariel Da Gama",
+      "Username:": "ariel",
+      "Email:": "ariel@gmail.com",
+      "Age:": 18,
+      "Gender:": "male",
+      "Password:": "ariel123"
+    }
+  ]
+}
