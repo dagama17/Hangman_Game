@@ -31,7 +31,7 @@ def clients(conn):
     # get all clients username from the database
     users = {}
     all_users = [] 
-    with open(f"C:\\Users\\israe\\Documents\\Evil_Tech\\hangman_cli\\database.json", "r") as file:
+    with open(f"{current_dir}\\database.json", "r") as file:
         contents = json.load(file)
         
         # for cl in contents["database"]:
