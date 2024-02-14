@@ -1,10 +1,11 @@
 import os
 import sys
+import time
 import json
 import socket
 import threading
 
-IP_ADDR = "169.254.240.190"
+IP_ADDR = "<your_ip_address>"
 PORT = 4444
 all_clients = []
 current_dir = os.getcwd()
@@ -43,31 +44,63 @@ def clients(conn):
     
     conn.send("client_name".encode("utf-8"))
     client = conn.recv(1024).decode("utf-8")
+
+    
     #message = conn.send("joined the game".encode("utf-8"))
     
+
     if client in all_users:
         # first we will check if the client is in the database before we send to other users that he joined
         # here we are going to broadcast the message to all clients
         connected = True
-        os.system("cls" if os.name == "nt" else "clear")
-        
-        print(logo)
-        print(lines)
-        #while connected:
         all_clients.append(client)
+            
         active = len(all_clients) 
         unactive = len(contents["database"]) - len(all_clients)
-            
-       
-        print(f"\n\t[+] all active number of clients: {active}")
-        print(f"\t[-] all unactive number of clients: {unactive}\n")
-        #what if the user leaves the game we need to some how check for updates in the all_clients list
         
+        while connected:
+            os.system("cls" if os.name == "nt" else "clear")
+            print(logo)
+            print(lines)
+            #while connected:
+            
+            print(f"\n\t[+] all active number of clients: {active}")
+            print(f"\t[-] all unactive number of clients: {unactive}\n")
+            #what if the user leaves the game we need to some how check for updates in the all_clients list
+           
+            cmd = input("\t>>> ")
+
+            if cmd == "active users":
+                users0 = ", ".join(x for x in all_clients)
+                print(f"\t{users0}")
+                time.sleep(4)
+            
+            if cmd == "unactive users":
+                info = []
+                users = {}
+                for i in contents['database']:
+                    for x in i.values():
+                        info.append(x)
+
+                for j in all_clients:
+                    if j in info:
+                        info.remove(j)
+                        users.update(j)
+
+                print(f"\t{users}")
+                time.sleep(4)
+
+           
     else:
         # If the user doen't exist then we will close the program
+        
+        print(f"\t[!] invalid user name: {client}")
         conn.send("exit".encode("utf-8"))
-        print("[!] invalid user name")
 
+
+    data = conn.recv(1024).decode("utf-8")
+    if type(data) == dict:
+        print(data)
     # Then we will compare if the users is in the database then he can play
 
 def start_server():
