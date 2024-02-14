@@ -46,7 +46,7 @@ file_name = os.path.basename(__file__)
 game_username = []
 usernames = []
 
-ADDR = "169.254.240.190"
+ADDR = "<your_ip_address>"
 PORT = 4444
 
 
