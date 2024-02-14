@@ -1,5 +1,4 @@
 import re
-#try:
 import os
 import sys
 import time
@@ -16,9 +15,7 @@ import subprocess
 import sqlite3
 from threading import Thread
 from datetime import datetime
-# except ModuleNotFoundError:
-# 	path = "C:\\Users\\israe\\Documents\\Evil_Tech\\requirements.txt"
-# 	os.system(f"pip install -r {path}")
+
 	
 
 current_dir = os.getcwd()
